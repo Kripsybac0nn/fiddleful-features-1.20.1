@@ -1,8 +1,12 @@
 package name.fiddlefulfeatures;
 
+import name.fiddlefulfeatures.item.ModItemGroups;
 import name.fiddlefulfeatures.item.ModItems;
 import net.fabricmc.api.ModInitializer;
 
+import net.minecraft.item.ItemGroup;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,8 +16,9 @@ public class FiddlefulFeatures implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-
-		ModItems.registerModItems();
 		LOGGER.info("Hello Fabric world!");
+		ModItems.registerModItems();
+
+
 	}
 }
