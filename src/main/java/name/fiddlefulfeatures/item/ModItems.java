@@ -13,11 +13,8 @@ import net.minecraft.util.Identifier;
 
 public class ModItems {
     public static final Item ORB = registerItem("orb", new Item(new FabricItemSettings()));
+    public static final Item COIN = registerItem("coin", new Item(new FabricItemSettings()));
     public static final Item MATTOCK = registerItem("mattock", new Mattock(new FabricItemSettings().maxCount(1).fireproof()));
-
-    private static void addItemsToIngredientItemGroup(FabricItemGroupEntries entries)    {
-        entries.add(ORB);
-    }
 
     private static Item registerItem(String name, Item item) {
         return Registry.register(Registries.ITEM, new Identifier(FiddlefulFeatures.MOD_ID, name), item);
@@ -26,6 +23,5 @@ public class ModItems {
     public static void registerModItems() {
         FiddlefulFeatures.LOGGER.info("Registering Mod Items for " + FiddlefulFeatures.MOD_ID);
 
-        ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register(ModItems::addItemsToIngredientItemGroup);
     }
 }

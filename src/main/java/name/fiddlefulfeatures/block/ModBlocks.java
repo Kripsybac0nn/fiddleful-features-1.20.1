@@ -1,6 +1,7 @@
 package name.fiddlefulfeatures.block;
 
 import name.fiddlefulfeatures.FiddlefulFeatures;
+import name.fiddlefulfeatures.block.custom.SlotMachine;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
@@ -16,6 +17,8 @@ public class ModBlocks {
 
     public static final Block ORB_BLOCK = registerBlock("orb_block",
             new Block(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK).sounds(BlockSoundGroup.GLOW_LICHEN)));
+    public static final Block SLOTMACHINE = registerBlock("slotmachine",
+            new SlotMachine(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK)));
 
 
     private static Block registerBlock(String name, Block block) {

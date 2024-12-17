@@ -19,8 +19,9 @@ public class ModItemGroups {
 
                         entries.add(ModItems.ORB);
                         entries.add(ModItems.MATTOCK);
-
                         entries.add(ModBlocks.ORB_BLOCK);
+                        entries.add(ModBlocks.SLOTMACHINE);
+                        entries.add(ModItems.COIN);
 
                     }).build());
 
