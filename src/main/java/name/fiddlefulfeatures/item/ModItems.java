@@ -1,6 +1,7 @@
 package name.fiddlefulfeatures.item;
 
 import name.fiddlefulfeatures.FiddlefulFeatures;
+import name.fiddlefulfeatures.items.Mattock;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroupEntries;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
@@ -12,7 +13,7 @@ import net.minecraft.util.Identifier;
 
 public class ModItems {
     public static final Item ORB = registerItem("orb", new Item(new FabricItemSettings()));
-    public static final Item MATTOCK = registerItem("mattock", new Item(new FabricItemSettings().maxCount(1).fireproof()));
+    public static final Item MATTOCK = registerItem("mattock", new Mattock(new FabricItemSettings().maxCount(1).fireproof()));
 
     private static void addItemsToIngredientItemGroup(FabricItemGroupEntries entries)    {
         entries.add(ORB);

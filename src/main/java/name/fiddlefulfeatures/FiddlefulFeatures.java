@@ -1,5 +1,6 @@
 package name.fiddlefulfeatures;
 
+import name.fiddlefulfeatures.block.ModBlocks;
 import name.fiddlefulfeatures.item.ModItemGroups;
 import name.fiddlefulfeatures.item.ModItems;
 import net.fabricmc.api.ModInitializer;
@@ -18,6 +19,8 @@ public class FiddlefulFeatures implements ModInitializer {
 	public void onInitialize() {
 		LOGGER.info("Hello Fabric world!");
 		ModItems.registerModItems();
+		ModItemGroups.registerItemGroups();
+		ModBlocks.registerModBlocks();
 
 
 	}

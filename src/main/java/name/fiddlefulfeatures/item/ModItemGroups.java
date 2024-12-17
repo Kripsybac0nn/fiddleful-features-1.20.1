@@ -1,6 +1,7 @@
 package name.fiddlefulfeatures.item;
 
 import name.fiddlefulfeatures.FiddlefulFeatures;
+import name.fiddlefulfeatures.block.ModBlocks;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemGroups;
@@ -19,11 +20,12 @@ public class ModItemGroups {
                         entries.add(ModItems.ORB);
                         entries.add(ModItems.MATTOCK);
 
+                        entries.add(ModBlocks.ORB_BLOCK);
+
                     }).build());
 
 
     public static void registerItemGroups() {
         FiddlefulFeatures.LOGGER.info("Registering Item Groups for " + FiddlefulFeatures.MOD_ID);
-        Registry.register(Registries.ITEM_GROUP, FiddlefulFeatures.MOD_ID, FIDDLEGROUP);
     }
 }

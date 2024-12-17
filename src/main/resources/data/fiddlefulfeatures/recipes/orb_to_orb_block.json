@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+ "pattern": [
+   "###",
+   "###",
+   "###"
+ ],
+  "key": {
+    "#": {"item": "fiddlefulfeatures:orb"}
+  },
+  "result": {
+    "item": "fiddlefulfeatures:orb_block",
+    "count": 1
+  }
+}

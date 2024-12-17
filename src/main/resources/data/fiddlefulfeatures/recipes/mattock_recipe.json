@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "N": {"item": "minecraft:netherite_ingot"},
+    "G": {"item": "minecraft:gold_block"},
+    "#": {"item":  "minecraft:stick"}
+  },
+ "pattern": [
+   "NNG",
+   " #N",
+   "#  "
+ ],
+  "result": {
+    "item": "fiddlefulfeatures:mattock"
+  },
+  "show_notification": true
+}
