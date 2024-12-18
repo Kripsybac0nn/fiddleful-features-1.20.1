@@ -1,4 +1,4 @@
-package name.fiddlefulfeatures.items;
+package name.fiddlefulfeatures.item.custom;
 
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.player.PlayerEntity;

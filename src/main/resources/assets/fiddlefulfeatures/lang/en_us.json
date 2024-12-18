@@ -2,9 +2,11 @@
   "item.fiddlefulfeatures.orb": "Orb",
   "item.fiddlefulfeatures.coin": "Coin",
   "item.fiddlefulfeatures.mattock": "Netherite Mattock",
-
+  "item.fiddlefulfeatures.walletwhacker": "Walletwhacker",
   "block.fiddlefulfeatures.orb_block": "Block of Orb",
   "block.fiddlefulfeatures.slotmachine": "Slot Machine",
+
+  "tooltip.fiddlefulfeatures.walletwhacker.tooltip": "For only the most professional gamblers.",
 
   "itemgroup.fiddlegroup": "Fiddleful Features"
 }
