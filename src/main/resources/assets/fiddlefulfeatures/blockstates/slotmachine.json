@@ -1,6 +1,16 @@
 {
   "variants": {
-      "gambleable=true": { "model": "fiddlefulfeatures:block/slotmachine"},
-    "gambleable=false": {"model": "fiddlefulfeatures:block/slotmachinedead"}
+    "state=1,facing=north": { "model": "fiddlefulfeatures:block/slotmachine","y": 0},
+    "state=1,facing=east": { "model": "fiddlefulfeatures:block/slotmachine","y": 90},
+    "state=1,facing=west": { "model": "fiddlefulfeatures:block/slotmachine","y": 270},
+    "state=1,facing=south": { "model": "fiddlefulfeatures:block/slotmachine","y": 180},
+    "state=2,facing=north": { "model": "fiddlefulfeatures:block/slotmachinedead","y": 0},
+    "state=2,facing=east": { "model": "fiddlefulfeatures:block/slotmachinedead","y": 90},
+    "state=2,facing=west": { "model": "fiddlefulfeatures:block/slotmachinedead","y": 270},
+    "state=2,facing=south": { "model": "fiddlefulfeatures:block/slotmachinedead","y": 180},
+    "state=3,facing=north": { "model": "fiddlefulfeatures:block/slotmachinerebuilt","y": 0},
+    "state=3,facing=east": { "model": "fiddlefulfeatures:block/slotmachinerebuilt","y": 90},
+    "state=3,facing=west": { "model": "fiddlefulfeatures:block/slotmachinerebuilt","y": 270},
+    "state=3,facing=south": { "model": "fiddlefulfeatures:block/slotmachinerebuilt","y": 180}
   }
 }

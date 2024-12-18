@@ -2,56 +2,50 @@ package name.fiddlefulfeatures.block.custom;
 
 import name.fiddlefulfeatures.FiddlefulFeatures;
 import name.fiddlefulfeatures.item.ModItems;
-import name.fiddlefulfeatures.items.Mattock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.entity.ItemEntity;
-import net.minecraft.entity.ai.brain.task.Task;
-import net.minecraft.entity.ai.brain.task.WaitTask;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUsage;
-import net.minecraft.item.Items;
-import net.minecraft.potion.PotionUtil;
-import net.minecraft.potion.Potions;
-import net.minecraft.server.world.ChunkTaskPrioritySystem;
+import net.minecraft.item.*;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.StateManager;
-import net.minecraft.state.property.BooleanProperty;
-import net.minecraft.state.property.Properties;
+import net.minecraft.state.property.*;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
 
 public class SlotMachine extends Block {
     public SlotMachine(Settings settings) {
         super(settings);
+        setDefaultState(getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.NORTH));
     }
 
 
     public static final BooleanProperty GAMBLEABLE = BooleanProperty.of("gambleable");
-    public static boolean REBUILT = false;
+    public static final IntProperty STATE = IntProperty.of("state", 1, 3);
+
 
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
         builder.add(GAMBLEABLE);
+        builder.add(STATE);
+        builder.add(Properties.HORIZONTAL_FACING);
     }
 
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         ItemStack itemStack = player.getStackInHand(hand);
-        if ((itemStack.isOf(ModItems.COIN)) && !world.isClient() ) {
-            world.setBlockState(pos, state.cycle(GAMBLEABLE));
+        if ((itemStack.isOf(ModItems.COIN)) && !world.isClient() && ((Boolean)state.get(GAMBLEABLE)) && !(state.get(STATE)==2)) {
+
+
             world.playSound(player, pos, SoundEvents.BLOCK_NOTE_BLOCK_BIT.value(), SoundCategory.BLOCKS, 1f, 1f);
             itemStack.decrement(1);
             int random = (int)(Math.random()*101);
             FiddlefulFeatures.LOGGER.info("You Rolled A " + random);
-
 
             world.playSound(player, pos, SoundEvents.BLOCK_NOTE_BLOCK_BIT.value(), SoundCategory.BLOCKS, 1f, 2f);
             if (random > -1 && random < 11){dropStack(world, pos, new ItemStack(Items.DIRT, 1));}
@@ -61,14 +55,25 @@ public class SlotMachine extends Block {
             else if (random == 69) {dropStack(world, pos, new ItemStack(ModItems.COIN, 2));}
             else if (random > 69 && random < 90) {dropStack(world, pos, new ItemStack(Items.DIAMOND, 5));}
             else if (random > 89 && random < 100) {dropStack(world, pos, new ItemStack(Items.NETHERITE_SCRAP, 2));}
-            else if (random == 100) {
+            else if (random == 100) { if ((state.get(STATE)==1)) {
                 dropStack(world, pos, new ItemStack(ModItems.ORB, 1));
                 world.playSound(player, pos, SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.BLOCKS, 1f, 1f);
-                world.setBlockState(pos, state.cycle(GAMBLEABLE));
-            }
+                world.setBlockState(pos, state.cycle(STATE));}
+                else {dropStack(world, pos, new ItemStack(Items.ENCHANTED_GOLDEN_APPLE, 1));}}
 
+        }
+        if ((itemStack.isOf(Items.LEVER)) && !world.isClient() && (state.get(STATE)==2)) {
+            world.setBlockState(pos, state.cycle(STATE));
+            world.playSound(player, pos, SoundEvents.BLOCK_DEEPSLATE_BRICKS_BREAK, SoundCategory.BLOCKS, 2f, 1f);
+            itemStack.decrement(1);
         }
 
         return ActionResult.SUCCESS;
     }
+
+    @Override
+    public BlockState getPlacementState(ItemPlacementContext ctx) {
+        return super.getPlacementState(ctx).with(Properties.HORIZONTAL_FACING, ctx.getHorizontalPlayerFacing().getOpposite());
+    }
+
 }

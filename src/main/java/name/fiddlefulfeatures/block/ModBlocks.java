@@ -19,7 +19,7 @@ public class ModBlocks {
     public static final Block ORB_BLOCK = registerBlock("orb_block",
             new Block(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK).sounds(BlockSoundGroup.GLOW_LICHEN)));
     public static final Block SLOTMACHINE = registerBlock("slotmachine",
-            new SlotMachine(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK).luminance(state -> state.get(SlotMachine.GAMBLEABLE) ? 15 : 0)));
+            new SlotMachine(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK).nonOpaque()));
 
 
     private static Block registerBlock(String name, Block block) {
