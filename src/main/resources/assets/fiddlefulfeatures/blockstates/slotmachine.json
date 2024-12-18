@@ -1,7 +1,6 @@
 {
   "variants": {
-    "": {
-      "model": "fiddlefulfeatures:block/orb_block"
-    }
+      "gambleable=true": { "model": "fiddlefulfeatures:block/slotmachine"},
+    "gambleable=false": {"model": "fiddlefulfeatures:block/slotmachinedead"}
   }
 }

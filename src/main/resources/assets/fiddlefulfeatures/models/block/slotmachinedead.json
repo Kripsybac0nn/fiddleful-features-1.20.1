@@ -2,8 +2,8 @@
 	"credit": "Made with Blockbench",
 	"texture_size": [128, 128],
 	"textures": {
-		"0": "fiddlefulfeatures:block/slotmachine",
-		"particle": "fiddlefulfeatures:block/slotmachinerebuilt"
+		"0": "fiddlefulfeatures:block/slotmachinedead",
+		"particle": "fiddlefulfeatures:block/slotmachinedead"
 	},
 	"elements": [
 		{
@@ -11,7 +11,7 @@
 			"to": [15, 16, 15],
 			"faces": {
 				"north": {"uv": [1.75, 1.75, 3.5, 3.5], "texture": "#0"},
-				"east": {"uv": [0, 1.75, 1.75, 3.5], "texture": "#0"},
+				"east": {"uv": [0, 1.75, 1.75, 3.5], "texture": "#1"},
 				"south": {"uv": [5.25, 1.75, 7, 3.5], "texture": "#0"},
 				"west": {"uv": [3.5, 1.75, 5.25, 3.5], "texture": "#0"},
 				"up": {"uv": [3.5, 1.75, 1.75, 0], "texture": "#0"},

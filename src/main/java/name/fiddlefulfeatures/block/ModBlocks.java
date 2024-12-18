@@ -10,6 +10,7 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
+import net.minecraft.screen.slot.Slot;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
 
@@ -18,7 +19,7 @@ public class ModBlocks {
     public static final Block ORB_BLOCK = registerBlock("orb_block",
             new Block(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK).sounds(BlockSoundGroup.GLOW_LICHEN)));
     public static final Block SLOTMACHINE = registerBlock("slotmachine",
-            new SlotMachine(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK)));
+            new SlotMachine(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK).luminance(state -> state.get(SlotMachine.GAMBLEABLE) ? 15 : 0)));
 
 
     private static Block registerBlock(String name, Block block) {
