@@ -3,6 +3,7 @@ package name.fiddlefulfeatures;
 import name.fiddlefulfeatures.block.ModBlocks;
 import name.fiddlefulfeatures.item.ModItemGroups;
 import name.fiddlefulfeatures.item.ModItems;
+import name.fiddlefulfeatures.util.ModLootTableModifiers;
 import net.fabricmc.api.ModInitializer;
 
 import net.minecraft.item.ItemGroup;
@@ -21,6 +22,8 @@ public class FiddlefulFeatures implements ModInitializer {
 		ModItems.registerModItems();
 		ModItemGroups.registerItemGroups();
 		ModBlocks.registerModBlocks();
+		ModLootTableModifiers.modifyLootTables();
+		ModLootTableModifiers.registerLootTables();
 
 
 	}

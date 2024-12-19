@@ -18,8 +18,9 @@ public class ModItemGroups {
                     .icon(() -> new ItemStack(ModItems.MATTOCK)).entries((displayContext, entries) -> {
 
                         entries.add(ModItems.ORB);
-                        entries.add(ModItems.MATTOCK);
                         entries.add(ModBlocks.ORB_BLOCK);
+                        entries.add(ModItems.MATTOCK);
+                        entries.add(ModItems.WALLETWHACKER);
                         entries.add(ModBlocks.SLOTMACHINE);
                         entries.add(ModItems.COIN);
 

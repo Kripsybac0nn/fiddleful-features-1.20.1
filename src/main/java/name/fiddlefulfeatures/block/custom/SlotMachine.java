@@ -56,7 +56,7 @@ public class SlotMachine extends Block {
             else if (random > 69 && random < 90) {dropStack(world, pos, new ItemStack(Items.DIAMOND, 5));}
             else if (random > 89 && random < 100) {dropStack(world, pos, new ItemStack(Items.NETHERITE_SCRAP, 2));}
             else if (random == 100) { if ((state.get(STATE)==1)) {
-                dropStack(world, pos, new ItemStack(ModItems.ORB, 1));
+                dropStack(world, pos, new ItemStack(ModItems.WALLETWHACKER, 1));
                 world.playSound(player, pos, SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.BLOCKS, 1f, 1f);
                 world.setBlockState(pos, state.cycle(STATE));}
                 else {dropStack(world, pos, new ItemStack(Items.ENCHANTED_GOLDEN_APPLE, 1));}}
