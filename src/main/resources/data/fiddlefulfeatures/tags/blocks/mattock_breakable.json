@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "fiddlefulfeatures:slotmachine",
+    "#minecraft:dirt",
+    "#minecraft:sand",
+    "#minecraft:mineable/pickaxe",
+    "#minecraft:mineable/shovel"
+  ]
+}

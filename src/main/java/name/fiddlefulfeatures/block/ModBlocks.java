@@ -8,6 +8,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
+import net.minecraft.item.PickaxeItem;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.screen.slot.Slot;
@@ -19,7 +20,7 @@ public class ModBlocks {
     public static final Block ORB_BLOCK = registerBlock("orb_block",
             new Block(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK).sounds(BlockSoundGroup.GLOW_LICHEN)));
     public static final Block SLOTMACHINE = registerBlock("slotmachine",
-            new SlotMachine(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK).nonOpaque()));
+            new SlotMachine(FabricBlockSettings.copyOf(Blocks.WHITE_WOOL).nonOpaque().hardness(0.5F).sounds(BlockSoundGroup.STONE)));
 
 
     private static Block registerBlock(String name, Block block) {
