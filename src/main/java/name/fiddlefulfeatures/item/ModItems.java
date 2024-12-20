@@ -16,7 +16,7 @@ import net.minecraft.util.Identifier;
 public class ModItems {
     public static final Item ORB = registerItem("orb", new Item(new FabricItemSettings()));
     public static final Item COIN = registerItem("coin", new Item(new FabricItemSettings()));
-    public static final Item MATTOCK = registerItem("mattock", new Mattock(ToolMaterials.NETHERITE, 2, 2f, new FabricItemSettings().maxCount(1).fireproof()));
+    public static final Item MATTOCK = registerItem("mattock", new Mattock(ToolMaterials.NETHERITE, 2, -2.8f, new FabricItemSettings().maxCount(1).fireproof()));
     public static final Item WALLETWHACKER = registerItem("walletwhacker", new WalletWhacker(new FabricItemSettings().maxDamage(2500), 1, 1f));
 
 

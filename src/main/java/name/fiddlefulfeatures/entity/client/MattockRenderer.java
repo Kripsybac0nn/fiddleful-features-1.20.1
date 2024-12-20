@@ -38,9 +38,10 @@ public class MattockRenderer extends EntityRenderer<MattockEntity> {
     }
 
 
+
     public void render(MattockEntity MattockEntity, float f, float g, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i) {
         matrixStack.push();
-        matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(MathHelper.lerp(g, MattockEntity.prevYaw, MattockEntity.getYaw()) - 90.0F));
+        matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(MathHelper.lerp(g, MattockEntity.prevYaw, MattockEntity.getYaw()) - 90.0f));
         matrixStack.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(MathHelper.lerp(g, MattockEntity.prevPitch, MattockEntity.getPitch()) + 90.0F));
         VertexConsumer vertexConsumer = ItemRenderer.getDirectItemGlintConsumer(
                 vertexConsumerProvider, this.model.getLayer(this.getTexture(MattockEntity)), false, MattockEntity.isEnchanted()

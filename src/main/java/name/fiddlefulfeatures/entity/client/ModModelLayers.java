@@ -6,5 +6,5 @@ import net.minecraft.util.Identifier;
 
 public class ModModelLayers {
     public static final EntityModelLayer MATTOCK =
-            new EntityModelLayer(new Identifier(FiddlefulFeatures.MOD_ID, "mattock"), "main");
+            new EntityModelLayer(new Identifier(FiddlefulFeatures.MOD_ID, "mattock" ), "main") ;
 }

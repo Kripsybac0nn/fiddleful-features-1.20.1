@@ -14,7 +14,7 @@ public class ModEntities {
     public static final EntityType<MattockEntity> MATTOCK_ENTITY = Registry.register(Registries.ENTITY_TYPE,
             new Identifier(FiddlefulFeatures.MOD_ID, "mattock_entity"),
             FabricEntityTypeBuilder.<MattockEntity>create(SpawnGroup.MISC, MattockEntity::new)
-                    .dimensions(EntityDimensions.fixed(0.25f, 0.25f)).build());
+                    .dimensions(EntityDimensions.fixed(1f, 1f)).build());
 
 
 }

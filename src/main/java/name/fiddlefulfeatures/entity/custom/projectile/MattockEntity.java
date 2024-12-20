@@ -3,6 +3,7 @@ package name.fiddlefulfeatures.entity.custom.projectile;
 import name.fiddlefulfeatures.entity.ModEntities;
 import name.fiddlefulfeatures.item.ModItems;
 import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.AnimationState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -32,6 +33,19 @@ public class MattockEntity extends PersistentProjectileEntity {
     private ItemStack mattockStack = new ItemStack(ModItems.MATTOCK);
     private boolean dealtDamage;
     public int returnTimer;
+    public final AnimationState idleAnimationState = new AnimationState();
+    private int idleAnimationTimeout = 0;
+
+
+
+    private void setupAnimationStates() {
+        if (this.idleAnimationTimeout <= 0) {
+            this.idleAnimationTimeout = this.random.nextInt(40) + 80;
+            this.idleAnimationState.start(this.age);
+        } else {
+            --this.idleAnimationTimeout;
+        }
+    }
 
 
 
@@ -71,6 +85,7 @@ public class MattockEntity extends PersistentProjectileEntity {
             } else {
                 this.setNoClip(true);
                 Vec3d vec3d = entity.getEyePos().subtract(this.getPos());
+                this.idleAnimationState.start(this.age);
                 this.setPos(this.getX(), this.getY() + vec3d.y * 0.015 * (double)i, this.getZ());
                 if (this.getWorld().isClient) {
                     this.lastRenderY = this.getY();
@@ -115,6 +130,7 @@ public class MattockEntity extends PersistentProjectileEntity {
         float f = 8.0F;
         if (entity instanceof LivingEntity livingEntity) {
             f += EnchantmentHelper.getAttackDamage(this.mattockStack, livingEntity.getGroup());
+            this.idleAnimationState.start(this.age);
         }
 
         Entity entity2 = this.getOwner();

@@ -1,6 +1,7 @@
 package name.fiddlefulfeatures.entity.client;
 
 
+import name.fiddlefulfeatures.entity.animation.ModAnimations;
 import name.fiddlefulfeatures.entity.custom.projectile.MattockEntity;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.VertexConsumer;
@@ -40,9 +41,15 @@ public class MattockModel<T extends MattockEntity> extends SinglePartEntityModel
 	}
 	@Override
 	public void setAngles(MattockEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+		this.getPart().traverse().forEach(ModelPart::resetTransform);
+
+		this.updateAnimation(entity.idleAnimationState, ModAnimations.SPIN, ageInTicks, 1F);
 	}
+
+
 	@Override
 	public void render(MatrixStack matrices, VertexConsumer vertexConsumer, int light, int overlay, float red, float green, float blue, float alpha) {
+
 		mattock.render(matrices, vertexConsumer, light, overlay, red, green, blue, alpha);
 	}
 
@@ -50,4 +57,6 @@ public class MattockModel<T extends MattockEntity> extends SinglePartEntityModel
 	public ModelPart getPart() {
 		return mattock;
 	}
+
+
 }

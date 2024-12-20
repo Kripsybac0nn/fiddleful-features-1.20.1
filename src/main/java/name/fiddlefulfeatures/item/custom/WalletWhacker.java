@@ -3,9 +3,11 @@ package name.fiddlefulfeatures.item.custom;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
+import com.mojang.brigadier.ParseResults;
 import name.fiddlefulfeatures.FiddlefulFeatures;
 import name.fiddlefulfeatures.damage.ModDamageSources;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.*;
 import net.minecraft.entity.attribute.EntityAttribute;
@@ -28,7 +30,10 @@ import net.minecraft.particle.ParticleTypes;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.tag.DamageTypeTags;
 import net.minecraft.screen.slot.Slot;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ExecuteCommand;
+import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
@@ -98,6 +103,7 @@ public class WalletWhacker extends Item implements Vanishable {
     private void spawnEffectsCloud(LivingEntity entity) {
         {
             AreaEffectCloudEntity areaEffectCloudEntity = new AreaEffectCloudEntity(entity.getWorld(), entity.getX(), entity.getY(), entity.getZ());
+
             areaEffectCloudEntity.setRadius(2.5F);
             areaEffectCloudEntity.setRadiusOnUse(-0.5F);
             areaEffectCloudEntity.setWaitTime(10);
@@ -114,16 +120,21 @@ public class WalletWhacker extends Item implements Vanishable {
 
     public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         int random = (int)(Math.random()*21);
-        attacker.sendMessage(Text.literal("Rolled " + random));
-        attacker.getWorld().addParticle(ParticleTypes.HEART, attacker.getX() + 0, attacker.getY() + 2, attacker.getZ() + 0, 0.0, 0.0, 0.0);
-        attacker.getWorld().addParticle(ParticleTypes.BUBBLE, attacker.getX(), attacker.getY() + 2, attacker.getZ(), 0.0, 0.0, 0.0);
-        attacker.getWorld().addParticle(ParticleTypes.SONIC_BOOM, attacker.getX(), attacker.getY() + 2, attacker.getZ(), 0.0, 0.0, 0.0);
-        attacker.getWorld().addParticle(ParticleTypes.EXPLOSION, attacker.getX(), attacker.getY() + 2, attacker.getZ(), 0.0, 0.0, 0.0);
-
-
-
+        attacker.sendMessage(Text.literal("Rolled " + random).formatted(Formatting.DARK_GRAY,Formatting.ITALIC));
+        // execute command for later
+        if (attacker != null) {
+            CommandManager commandManager = (attacker.getServer()).getCommandManager();
+            ServerCommandSource commandSource = attacker.getServer().getCommandSource();
+            commandManager.executeWithPrefix(commandSource, "execute at @p particle minecraft:heart ~ ~ ~ ~ ~ ~ 1 5 force");}
         if (random < 20){
-        playSound(attacker.getWorld(), attacker.getBlockPos(), SoundEvents.BLOCK_NOTE_BLOCK_BIT.value());}
+
+        playSound(attacker.getWorld(), attacker.getBlockPos(), SoundEvents.BLOCK_NOTE_BLOCK_BIT.value());
+            MinecraftClient.getInstance().world.addParticle(ParticleTypes.END_ROD, target.getX() + 0, target.getY() + 1, target.getZ() + 0, (int)(Math.random()*20-10)/100f, (int)(Math.random()*10)/100f, (int)(Math.random()*20-10)/100f);
+            MinecraftClient.getInstance().world.addParticle(ParticleTypes.END_ROD, target.getX() + 0, target.getY() + 1, target.getZ() + 0, (int)(Math.random()*20-10)/100f, (int)(Math.random()*10)/100f, (int)(Math.random()*20-10)/100f);
+            MinecraftClient.getInstance().world.addParticle(ParticleTypes.END_ROD, target.getX() + 0, target.getY() + 1, target.getZ() + 0, (int)(Math.random()*20-10)/100f, (int)(Math.random()*10)/100f, (int)(Math.random()*20-10)/100f);
+            MinecraftClient.getInstance().world.addParticle(ParticleTypes.END_ROD, target.getX() + 0, target.getY() + 1, target.getZ() + 0, (int)(Math.random()*20-10)/100f, (int)(Math.random()*10)/100f, (int)(Math.random()*20-10)/100f);
+            MinecraftClient.getInstance().world.addParticle(ParticleTypes.END_ROD, target.getX() + 0, target.getY() + 1, target.getZ() + 0, (int)(Math.random()*20-10)/100f, (int)(Math.random()*10)/100f, (int)(Math.random()*20-10)/100f);
+        }
         if (random == 1) {attacker.addStatusEffect(new StatusEffectInstance(StatusEffects.INSTANT_DAMAGE, 1, 0), attacker);}
         else if (random == 2) {attacker.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, 300, 0), attacker);}
         else if (random == 3) {target.addStatusEffect(new StatusEffectInstance(StatusEffects.INVISIBILITY, 300, 1), attacker);}
@@ -146,15 +157,27 @@ public class WalletWhacker extends Item implements Vanishable {
         else if (random == 17) {attacker.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 100, 9), attacker);}
         else if (random == 18) {attacker.addStatusEffect(new StatusEffectInstance(StatusEffects.HASTE, 100, 10), attacker);}
         else if (random == 19) {target.addStatusEffect(new StatusEffectInstance(StatusEffects.LEVITATION, 20, 20), attacker);}
-        else if (random == 20) {target.damage(attacker.getDamageSources().mobAttack(attacker),40);
+        else if (random == 20) {
+            target.damage(attacker.getDamageSources().mobAttack(attacker), 40);
             playSound(attacker.getWorld(), attacker.getBlockPos(), SoundEvents.BLOCK_NOTE_BLOCK_BELL.value());
             playSound(attacker.getWorld(), attacker.getBlockPos(), SoundEvents.BLOCK_AMETHYST_BLOCK_BREAK);
+            MinecraftClient.getInstance().world.addParticle(ParticleTypes.TOTEM_OF_UNDYING, target.getX() + 0, target.getY() + 1, target.getZ() + 0, (int) (Math.random() * 20 - 10)/10f, (int) (Math.random() * 10)/10f, (int) (Math.random() * 20 - 10)/10f);MinecraftClient.getInstance().world.addParticle(ParticleTypes.TOTEM_OF_UNDYING, target.getX() + 0, target.getY() + 1, target.getZ() + 0, (int) (Math.random() * 20 - 10)/10f, (int) (Math.random() * 10)/10f, (int) (Math.random() * 20 - 10)/10f);MinecraftClient.getInstance().world.addParticle(ParticleTypes.TOTEM_OF_UNDYING, target.getX() + 0, target.getY() + 1, target.getZ() + 0, (int) (Math.random() * 20 - 10)/10f, (int) (Math.random() * 10)/10f, (int) (Math.random() * 20 - 10)/10f);MinecraftClient.getInstance().world.addParticle(ParticleTypes.TOTEM_OF_UNDYING, target.getX() + 0, target.getY() + 1, target.getZ() + 0, (int) (Math.random() * 20 - 10)/10f, (int) (Math.random() * 10)/10f, (int) (Math.random() * 20 - 10)/10f);MinecraftClient.getInstance().world.addParticle(ParticleTypes.TOTEM_OF_UNDYING, target.getX() + 0, target.getY() + 1, target.getZ() + 0, (int) (Math.random() * 20 - 10)/10f, (int) (Math.random() * 10)/10f, (int) (Math.random() * 20 - 10)/10f);MinecraftClient.getInstance().world.addParticle(ParticleTypes.TOTEM_OF_UNDYING, target.getX() + 0, target.getY() + 1, target.getZ() + 0, (int) (Math.random() * 20 - 10)/10f, (int) (Math.random() * 10)/10f, (int) (Math.random() * 20 - 10)/10f);MinecraftClient.getInstance().world.addParticle(ParticleTypes.TOTEM_OF_UNDYING, target.getX() + 0, target.getY() + 1, target.getZ() + 0, (int) (Math.random() * 20 - 10)/10f, (int) (Math.random() * 10)/10f, (int) (Math.random() * 20 - 10)/10f);MinecraftClient.getInstance().world.addParticle(ParticleTypes.TOTEM_OF_UNDYING, target.getX() + 0, target.getY() + 1, target.getZ() + 0, (int) (Math.random() * 20 - 10)/10f, (int) (Math.random() * 10)/10f, (int) (Math.random() * 20 - 10)/10f);MinecraftClient.getInstance().world.addParticle(ParticleTypes.TOTEM_OF_UNDYING, target.getX() + 0, target.getY() + 1, target.getZ() + 0, (int) (Math.random() * 20 - 10)/10f, (int) (Math.random() * 10)/10f, (int) (Math.random() * 20 - 10)/10f);MinecraftClient.getInstance().world.addParticle(ParticleTypes.TOTEM_OF_UNDYING, target.getX() + 0, target.getY() + 1, target.getZ() + 0, (int) (Math.random() * 20 - 10)/10f, (int) (Math.random() * 10)/10f, (int) (Math.random() * 20 - 10)/10f);MinecraftClient.getInstance().world.addParticle(ParticleTypes.TOTEM_OF_UNDYING, target.getX() + 0, target.getY() + 1, target.getZ() + 0, (int) (Math.random() * 20 - 10)/10f, (int) (Math.random() * 10)/10f, (int) (Math.random() * 20 - 10)/10f);MinecraftClient.getInstance().world.addParticle(ParticleTypes.TOTEM_OF_UNDYING, target.getX() + 0, target.getY() + 1, target.getZ() + 0, (int) (Math.random() * 20 - 10)/10f, (int) (Math.random() * 10)/10f, (int) (Math.random() * 20 - 10)/10f);MinecraftClient.getInstance().world.addParticle(ParticleTypes.TOTEM_OF_UNDYING, target.getX() + 0, target.getY() + 1, target.getZ() + 0, (int) (Math.random() * 20 - 10)/10f, (int) (Math.random() * 10)/10f, (int) (Math.random() * 20 - 10)/10f);MinecraftClient.getInstance().world.addParticle(ParticleTypes.TOTEM_OF_UNDYING, target.getX() + 0, target.getY() + 1, target.getZ() + 0, (int) (Math.random() * 20 - 10)/10f, (int) (Math.random() * 10)/10f, (int) (Math.random() * 20 - 10)/10f);MinecraftClient.getInstance().world.addParticle(ParticleTypes.TOTEM_OF_UNDYING, target.getX() + 0, target.getY() + 1, target.getZ() + 0, (int) (Math.random() * 20 - 10)/10f, (int) (Math.random() * 10)/10f, (int) (Math.random() * 20 - 10)/10f);MinecraftClient.getInstance().world.addParticle(ParticleTypes.TOTEM_OF_UNDYING, target.getX() + 0, target.getY() + 1, target.getZ() + 0, (int) (Math.random() * 20 - 10)/10f, (int) (Math.random() * 10)/10f, (int) (Math.random() * 20 - 10)/10f);MinecraftClient.getInstance().world.addParticle(ParticleTypes.TOTEM_OF_UNDYING, target.getX() + 0, target.getY() + 1, target.getZ() + 0, (int) (Math.random() * 20 - 10)/10f, (int) (Math.random() * 10)/10f, (int) (Math.random() * 20 - 10)/10f);MinecraftClient.getInstance().world.addParticle(ParticleTypes.TOTEM_OF_UNDYING, target.getX() + 0, target.getY() + 1, target.getZ() + 0, (int) (Math.random() * 20 - 10)/10f, (int) (Math.random() * 10)/10f, (int) (Math.random() * 20 - 10)/10f);MinecraftClient.getInstance().world.addParticle(ParticleTypes.TOTEM_OF_UNDYING, target.getX() + 0, target.getY() + 1, target.getZ() + 0, (int) (Math.random() * 20 - 10)/10f, (int) (Math.random() * 10)/10f, (int) (Math.random() * 20 - 10)/10f);MinecraftClient.getInstance().world.addParticle(ParticleTypes.TOTEM_OF_UNDYING, target.getX() + 0, target.getY() + 1, target.getZ() + 0, (int) (Math.random() * 20 - 10)/10f, (int) (Math.random() * 10)/10f, (int) (Math.random() * 20 - 10)/10f);MinecraftClient.getInstance().world.addParticle(ParticleTypes.TOTEM_OF_UNDYING, target.getX() + 0, target.getY() + 1, target.getZ() + 0, (int) (Math.random() * 20 - 10)/10f, (int) (Math.random() * 10)/10f, (int) (Math.random() * 20 - 10)/10f);MinecraftClient.getInstance().world.addParticle(ParticleTypes.TOTEM_OF_UNDYING, target.getX() + 0, target.getY() + 1, target.getZ() + 0, (int) (Math.random() * 20 - 10)/10f, (int) (Math.random() * 10)/10f, (int) (Math.random() * 20 - 10)/10f);MinecraftClient.getInstance().world.addParticle(ParticleTypes.TOTEM_OF_UNDYING, target.getX() + 0, target.getY() + 1, target.getZ() + 0, (int) (Math.random() * 20 - 10)/10f, (int) (Math.random() * 10)/10f, (int) (Math.random() * 20 - 10)/10f);MinecraftClient.getInstance().world.addParticle(ParticleTypes.TOTEM_OF_UNDYING, target.getX() + 0, target.getY() + 1, target.getZ() + 0, (int) (Math.random() * 20 - 10)/10f, (int) (Math.random() * 10)/10f, (int) (Math.random() * 20 - 10)/10f);MinecraftClient.getInstance().world.addParticle(ParticleTypes.TOTEM_OF_UNDYING, target.getX() + 0, target.getY() + 1, target.getZ() + 0, (int) (Math.random() * 20 - 10)/10f, (int) (Math.random() * 10)/10f, (int) (Math.random() * 20 - 10)/10f);MinecraftClient.getInstance().world.addParticle(ParticleTypes.TOTEM_OF_UNDYING, target.getX() + 0, target.getY() + 1, target.getZ() + 0, (int) (Math.random() * 20 - 10)/10f, (int) (Math.random() * 10)/10f, (int) (Math.random() * 20 - 10)/10f);MinecraftClient.getInstance().world.addParticle(ParticleTypes.TOTEM_OF_UNDYING, target.getX() + 0, target.getY() + 1, target.getZ() + 0, (int) (Math.random() * 20 - 10)/10f, (int) (Math.random() * 10)/10f, (int) (Math.random() * 20 - 10)/10f);MinecraftClient.getInstance().world.addParticle(ParticleTypes.TOTEM_OF_UNDYING, target.getX() + 0, target.getY() + 1, target.getZ() + 0, (int) (Math.random() * 20 - 10)/10f, (int) (Math.random() * 10)/10f, (int) (Math.random() * 20 - 10)/10f);MinecraftClient.getInstance().world.addParticle(ParticleTypes.TOTEM_OF_UNDYING, target.getX() + 0, target.getY() + 1, target.getZ() + 0, (int) (Math.random() * 20 - 10)/10f, (int) (Math.random() * 10)/10f, (int) (Math.random() * 20 - 10)/10f);MinecraftClient.getInstance().world.addParticle(ParticleTypes.TOTEM_OF_UNDYING, target.getX() + 0, target.getY() + 1, target.getZ() + 0, (int) (Math.random() * 20 - 10)/10f, (int) (Math.random() * 10)/10f, (int) (Math.random() * 20 - 10)/10f);MinecraftClient.getInstance().world.addParticle(ParticleTypes.TOTEM_OF_UNDYING, target.getX() + 0, target.getY() + 1, target.getZ() + 0, (int) (Math.random() * 20 - 10)/10f, (int) (Math.random() * 10)/10f, (int) (Math.random() * 20 - 10)/10f);
+            MinecraftClient.getInstance().world.addParticle(ParticleTypes.FALLING_SPORE_BLOSSOM, target.getX() + 0, target.getY() + 1, target.getZ() + 0, (int) (Math.random() * 20 - 10)/10f, (int) (Math.random() * 10)/10f, (int) (Math.random() * 20 - 10)/10f);
+            MinecraftClient.getInstance().world.addParticle(ParticleTypes.FALLING_SPORE_BLOSSOM, target.getX() + 0, target.getY() + 1, target.getZ() + 0, (int) (Math.random() * 20 - 10)/10f, (int) (Math.random() * 10)/10f, (int) (Math.random() * 20 - 10)/10f);
+            MinecraftClient.getInstance().world.addParticle(ParticleTypes.FALLING_SPORE_BLOSSOM, target.getX() + 0, target.getY() + 1, target.getZ() + 0, (int) (Math.random() * 20 - 10)/10f, (int) (Math.random() * 10)/10f, (int) (Math.random() * 20 - 10)/10f);
+            MinecraftClient.getInstance().world.addParticle(ParticleTypes.FALLING_SPORE_BLOSSOM, target.getX() + 0, target.getY() + 1, target.getZ() + 0, (int) (Math.random() * 20 - 10)/10f, (int) (Math.random() * 10)/10f, (int) (Math.random() * 20 - 10)/10f);MinecraftClient.getInstance().world.addParticle(ParticleTypes.FALLING_SPORE_BLOSSOM, target.getX() + 0, target.getY() + 1, target.getZ() + 0, (int) (Math.random() * 20 - 10)/10f, (int) (Math.random() * 10)/10f, (int) (Math.random() * 20 - 10)/10f);
+            MinecraftClient.getInstance().world.addParticle(ParticleTypes.FALLING_SPORE_BLOSSOM, target.getX() + 0, target.getY() + 1, target.getZ() + 0, (int) (Math.random() * 20 - 10)/10f, (int) (Math.random() * 10)/10f, (int) (Math.random() * 20 - 10)/10f);
+            MinecraftClient.getInstance().world.addParticle(ParticleTypes.FALLING_SPORE_BLOSSOM, target.getX() + 0, target.getY() + 1, target.getZ() + 0, (int) (Math.random() * 20 - 10)/10f, (int) (Math.random() * 10)/10f, (int) (Math.random() * 20 - 10)/10f);
+            MinecraftClient.getInstance().world.addParticle(ParticleTypes.FALLING_SPORE_BLOSSOM, target.getX() + 0, target.getY() + 1, target.getZ() + 0, (int) (Math.random() * 20 - 10)/10f, (int) (Math.random() * 10)/10f, (int) (Math.random() * 20 - 10)/10f);
 
-            this.spawnEffectsCloud(attacker);}
+
+
+
+        }
 
         return false;
     }
-    
+
 
 
     @Override
