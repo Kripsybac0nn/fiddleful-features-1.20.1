@@ -39,6 +39,8 @@ public class SlotMachine extends Block {
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         ItemStack itemStack = player.getStackInHand(hand);
+        if ((itemStack.isOf(ModItems.COIN)) && world.isClient() && ((Boolean)state.get(GAMBLEABLE)) && !(state.get(STATE)==2)) {
+            world.playSound(player, pos, SoundEvents.BLOCK_NOTE_BLOCK_BIT.value(), SoundCategory.BLOCKS, 1f, 2f);}
         if ((itemStack.isOf(ModItems.COIN)) && !world.isClient() && ((Boolean)state.get(GAMBLEABLE)) && !(state.get(STATE)==2)) {
 
 
@@ -47,7 +49,7 @@ public class SlotMachine extends Block {
             int random = (int)(Math.random()*101);
             FiddlefulFeatures.LOGGER.info("You Rolled A " + random);
 
-            world.playSound(player, pos, SoundEvents.BLOCK_NOTE_BLOCK_BIT.value(), SoundCategory.BLOCKS, 1f, 2f);
+            world.playSound(player, pos, SoundEvents.BLOCK_NOTE_BLOCK_BIT.value(), SoundCategory.BLOCKS, 1f, 1f);
             if (random > -1 && random < 11){dropStack(world, pos, new ItemStack(Items.DIRT, 1));}
             else if (random > 10 && random < 26) {dropStack(world, pos, new ItemStack(Items.IRON_INGOT, 8));}
             else if (random > 25 && random < 51) {dropStack(world, pos, new ItemStack(Items.RAW_GOLD, 11));}

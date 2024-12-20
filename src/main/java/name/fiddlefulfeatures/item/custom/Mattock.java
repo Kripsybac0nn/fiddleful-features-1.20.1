@@ -4,23 +4,28 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import name.fiddlefulfeatures.block.ModBlockTags;
 
+import name.fiddlefulfeatures.entity.custom.projectile.MattockEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.CampfireBlock;
+import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.item.*;
-import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.Hand;
+import net.minecraft.util.TypedActionResult;
+import net.minecraft.util.UseAction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.WorldEvents;
 import net.minecraft.world.event.GameEvent;
 
-import javax.swing.plaf.nimbus.State;
 import java.util.Map;
 
 public class Mattock extends MiningToolItem implements Vanishable {
@@ -38,9 +43,6 @@ public class Mattock extends MiningToolItem implements Vanishable {
         BlockState blockState = world.getBlockState(blockPos);
 
         ItemStack itemStack = context.getStack();
-
-
-
             // Shovel
             if (context.getSide() != Direction.DOWN) {
                 BlockState blockState2 = PATH_STATES.get(blockState.getBlock());
@@ -71,6 +73,59 @@ public class Mattock extends MiningToolItem implements Vanishable {
 
         return ActionResult.PASS;
     }
+
+    @Override
+    public int getMaxUseTime(ItemStack stack) {
+        return 1000;
+    }
+
+    public UseAction getUseAction(ItemStack stack) {
+        return UseAction.SPEAR;
+    }
+
+    @Override
+    public void onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
+        if (user instanceof PlayerEntity playerEntity) {
+            int i = this.getMaxUseTime(stack) - remainingUseTicks;
+            if (i >= 10) {
+                int j = EnchantmentHelper.getRiptide(stack);
+                if (j <= 0 || playerEntity.isTouchingWaterOrRain()) {
+                    if (!world.isClient) {
+                        stack.damage(1, playerEntity, p -> p.sendToolBreakStatus(user.getActiveHand()));
+                        if (j == 0) {
+                            MattockEntity mattockEntity = new MattockEntity(world, playerEntity, stack);
+                            mattockEntity.setVelocity(playerEntity, playerEntity.getPitch(), playerEntity.getYaw(), 0.0F, 2.5F + (float)j * 0.5F, 1.0F);
+                            if (playerEntity.getAbilities().creativeMode) {
+                                mattockEntity.pickupType = PersistentProjectileEntity.PickupPermission.CREATIVE_ONLY;
+                            }
+
+                            world.spawnEntity(mattockEntity);
+                            world.playSoundFromEntity(null, mattockEntity, SoundEvents.ITEM_TRIDENT_THROW, SoundCategory.PLAYERS, 1.0F, 1.0F);
+                            if (!playerEntity.getAbilities().creativeMode) {
+                                playerEntity.getInventory().removeOne(stack);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @Override
+    public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
+        ItemStack itemStack = user.getStackInHand(hand);
+        if (itemStack.getDamage() >= itemStack.getMaxDamage() - 1) {
+            return TypedActionResult.fail(itemStack);
+        } else if (EnchantmentHelper.getRiptide(itemStack) > 0 && !user.isTouchingWaterOrRain()) {
+            return TypedActionResult.fail(itemStack);
+        } else {
+            user.setCurrentHand(hand);
+            return TypedActionResult.consume(itemStack);
+        }
+    }
+
+
+
 
 
 }

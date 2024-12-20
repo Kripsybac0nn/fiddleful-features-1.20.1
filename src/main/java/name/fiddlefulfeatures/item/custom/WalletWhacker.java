@@ -18,6 +18,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Vanishable;
 import net.minecraft.network.packet.s2c.play.TitleS2CPacket;
 import net.minecraft.server.command.ExecuteCommand;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
@@ -25,6 +27,8 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+
+import static net.minecraft.block.entity.BeaconBlockEntity.playSound;
 
 
 public class WalletWhacker extends Item implements Vanishable {
@@ -66,6 +70,8 @@ public class WalletWhacker extends Item implements Vanishable {
         Object RegistryEntry;
         int random = (int)(Math.random()*21);
         FiddlefulFeatures.LOGGER.info("You Rolled A " + random);
+
+        playSound(attacker.getWorld(), attacker.getBlockPos(), SoundEvents.BLOCK_NOTE_BLOCK_BIT.value());
 
 
 
