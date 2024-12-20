@@ -4,29 +4,56 @@ package name.fiddlefulfeatures.item.custom;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import name.fiddlefulfeatures.FiddlefulFeatures;
+import name.fiddlefulfeatures.damage.ModDamageSources;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.client.item.TooltipContext;
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.*;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.damage.DamageSources;
+import net.minecraft.entity.damage.DamageType;
+import net.minecraft.entity.damage.DamageTypes;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.entity.projectile.ArrowEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Vanishable;
 import net.minecraft.network.packet.s2c.play.TitleS2CPacket;
+import net.minecraft.particle.ParticleEffect;
+import net.minecraft.particle.ParticleTypes;
+import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.registry.tag.DamageTypeTags;
 import net.minecraft.server.command.ExecuteCommand;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
+import net.minecraft.util.TypedActionResult;
+import net.minecraft.util.hit.HitResult;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.projectile.AbstractFireballEntity;
+import net.minecraft.entity.projectile.FireworkRocketEntity;
+import net.minecraft.entity.projectile.PersistentProjectileEntity;
+import net.minecraft.entity.projectile.WitherSkullEntity;
+import net.minecraft.registry.DynamicRegistryManager;
+import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.explosion.Explosion;
+import org.jetbrains.annotations.Nullable;
+import net.minecraft.particle.ParticleTypes;
 
+import java.util.Collection;
 import java.util.List;
+
 
 import static net.minecraft.block.entity.BeaconBlockEntity.playSound;
 
@@ -49,6 +76,12 @@ public class WalletWhacker extends Item implements Vanishable {
         this.attributeModifiers = builder.build();
     }
 
+    protected ParticleEffect getParticles() {
+        return ParticleTypes.ITEM_SLIME;
+    }
+
+
+
     public WalletWhacker(FabricItemSettings settings, Multimap<EntityAttribute, EntityAttributeModifier> attributeModifiers) {
         super(settings);
 
@@ -62,19 +95,38 @@ public class WalletWhacker extends Item implements Vanishable {
     public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
         tooltip.add(Text.translatable("tooltip.fiddlefulfeatures.walletwhacker.tooltip").formatted(Formatting.ITALIC,Formatting.DARK_GRAY));
     }
+    private void spawnEffectsCloud(LivingEntity entity) {
+        {
+            AreaEffectCloudEntity areaEffectCloudEntity = new AreaEffectCloudEntity(entity.getWorld(), entity.getX(), entity.getY(), entity.getZ());
+            areaEffectCloudEntity.setRadius(2.5F);
+            areaEffectCloudEntity.setRadiusOnUse(-0.5F);
+            areaEffectCloudEntity.setWaitTime(10);
+            areaEffectCloudEntity.setDuration(areaEffectCloudEntity.getDuration() / 2);
+            areaEffectCloudEntity.setRadiusGrowth(-areaEffectCloudEntity.getRadius() / (float)areaEffectCloudEntity.getDuration());
 
+
+                areaEffectCloudEntity.addEffect(new StatusEffectInstance(StatusEffects.INSTANT_DAMAGE));
+
+
+            entity.getWorld().spawnEntity(areaEffectCloudEntity);
+        }
+    }
 
     public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-
-        FiddlefulFeatures.LOGGER.info("You Rolled A " + 1);
-        Object RegistryEntry;
         int random = (int)(Math.random()*21);
         FiddlefulFeatures.LOGGER.info("You Rolled A " + random);
 
-        playSound(attacker.getWorld(), attacker.getBlockPos(), SoundEvents.BLOCK_NOTE_BLOCK_BIT.value());
+        attacker.sendMessage(Text.literal("Rolled " + random));
+        attacker.getWorld().addParticle(ParticleTypes.HEART, attacker.getX() + 0, attacker.getY() + 2, attacker.getZ() + 0, 0.0, 0.0, 0.0);
+        attacker.getWorld().addParticle(ParticleTypes.BUBBLE, attacker.getX(), attacker.getY() + 2, attacker.getZ(), 0.0, 0.0, 0.0);
+        attacker.getWorld().addParticle(ParticleTypes.SONIC_BOOM, attacker.getX(), attacker.getY() + 2, attacker.getZ(), 0.0, 0.0, 0.0);
+        attacker.getWorld().addParticle(ParticleTypes.EXPLOSION, attacker.getX(), attacker.getY() + 2, attacker.getZ(), 0.0, 0.0, 0.0);
 
 
 
+
+        if (random < 20){
+        playSound(attacker.getWorld(), attacker.getBlockPos(), SoundEvents.BLOCK_NOTE_BLOCK_BIT.value());}
         if (random == 1) {attacker.addStatusEffect(new StatusEffectInstance(StatusEffects.INSTANT_DAMAGE, 1, 0), attacker);}
         else if (random == 2) {attacker.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, 300, 0), attacker);}
         else if (random == 3) {target.addStatusEffect(new StatusEffectInstance(StatusEffects.INVISIBILITY, 300, 1), attacker);}
@@ -97,7 +149,11 @@ public class WalletWhacker extends Item implements Vanishable {
         else if (random == 17) {attacker.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 100, 9), attacker);}
         else if (random == 18) {attacker.addStatusEffect(new StatusEffectInstance(StatusEffects.HASTE, 100, 10), attacker);}
         else if (random == 19) {target.addStatusEffect(new StatusEffectInstance(StatusEffects.LEVITATION, 20, 20), attacker);}
-        else if (random == 20) {target.addStatusEffect(new StatusEffectInstance(StatusEffects.INSTANT_DAMAGE, 140, 1), attacker);}
+        else if (random == 20) {target.damage(attacker.getDamageSources().mobAttack(attacker),40);
+            playSound(attacker.getWorld(), attacker.getBlockPos(), SoundEvents.BLOCK_NOTE_BLOCK_BELL.value());
+            playSound(attacker.getWorld(), attacker.getBlockPos(), SoundEvents.BLOCK_AMETHYST_BLOCK_BREAK);
+
+            this.spawnEffectsCloud(attacker);}
 
         return false;
     }
@@ -111,7 +167,6 @@ public class WalletWhacker extends Item implements Vanishable {
     public int getEnchantability() {
         return 1;
     }
-
 
 
 }
