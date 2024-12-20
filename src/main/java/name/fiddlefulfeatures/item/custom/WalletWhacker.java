@@ -18,6 +18,7 @@ import net.minecraft.entity.damage.DamageTypes;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.projectile.ArrowEntity;
+import net.minecraft.inventory.StackReference;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Vanishable;
@@ -26,13 +27,12 @@ import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.tag.DamageTypeTags;
+import net.minecraft.screen.slot.Slot;
 import net.minecraft.server.command.ExecuteCommand;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
-import net.minecraft.util.Hand;
-import net.minecraft.util.TypedActionResult;
+import net.minecraft.util.*;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
@@ -114,14 +114,11 @@ public class WalletWhacker extends Item implements Vanishable {
 
     public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         int random = (int)(Math.random()*21);
-        FiddlefulFeatures.LOGGER.info("You Rolled A " + random);
-
         attacker.sendMessage(Text.literal("Rolled " + random));
         attacker.getWorld().addParticle(ParticleTypes.HEART, attacker.getX() + 0, attacker.getY() + 2, attacker.getZ() + 0, 0.0, 0.0, 0.0);
         attacker.getWorld().addParticle(ParticleTypes.BUBBLE, attacker.getX(), attacker.getY() + 2, attacker.getZ(), 0.0, 0.0, 0.0);
         attacker.getWorld().addParticle(ParticleTypes.SONIC_BOOM, attacker.getX(), attacker.getY() + 2, attacker.getZ(), 0.0, 0.0, 0.0);
         attacker.getWorld().addParticle(ParticleTypes.EXPLOSION, attacker.getX(), attacker.getY() + 2, attacker.getZ(), 0.0, 0.0, 0.0);
-
 
 
 
@@ -157,11 +154,15 @@ public class WalletWhacker extends Item implements Vanishable {
 
         return false;
     }
+    
+
 
     @Override
     public Multimap<EntityAttribute, EntityAttributeModifier> getAttributeModifiers(EquipmentSlot slot) {
         return slot == EquipmentSlot.MAINHAND ? this.attributeModifiers : super.getAttributeModifiers(slot);
     }
+
+
 
     @Override
     public int getEnchantability() {
