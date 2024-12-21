@@ -136,7 +136,7 @@ public class MattockEntity extends PersistentProjectileEntity {
         Entity entity2 = this.getOwner();
         DamageSource damageSource = this.getDamageSources().trident(this, (Entity)(entity2 == null ? this : entity2));
         this.dealtDamage = true;
-        SoundEvent soundEvent = SoundEvents.ITEM_TRIDENT_HIT;
+        SoundEvent soundEvent = SoundEvents.BLOCK_CALCITE_BREAK;
         if (entity.damage(damageSource, f)) {
             if (entity.getType() == EntityType.ENDERMAN) {
                 return;
