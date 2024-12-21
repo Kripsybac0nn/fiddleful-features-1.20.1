@@ -3,13 +3,13 @@
 	"id": "fiddlefulfeatures",
 	"version": "${version}",
 	"name": "Fiddleful Features",
-	"description": "This is an example description! Tell everyone what your mod is about!",
+	"description": "Adds features full of fiddle. You might find yourself fiddled at all this fiddling.",
 	"authors": [
 		"Me!"
 	],
 	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"homepage": "https://modrinth.com/project/fiddleful-features",
+		"sources": "https://github.com/Kripsybac0nn/fiddleful-features-1.20.1"
 	},
 	"license": "MIT",
 	"icon": "assets/fiddlefulfeatures/icon.png",
