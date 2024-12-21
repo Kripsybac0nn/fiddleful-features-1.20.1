@@ -127,7 +127,7 @@ public class MattockEntity extends PersistentProjectileEntity {
     @Override
     protected void onEntityHit(EntityHitResult entityHitResult) {
         Entity entity = entityHitResult.getEntity();
-        float f = 8.0F;
+        float f = 10.0F;
         if (entity instanceof LivingEntity livingEntity) {
             f += EnchantmentHelper.getAttackDamage(this.mattockStack, livingEntity.getGroup());
             this.idleAnimationState.start(this.age);

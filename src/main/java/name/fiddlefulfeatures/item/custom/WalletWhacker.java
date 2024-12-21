@@ -137,27 +137,27 @@ public class WalletWhacker extends Item implements Vanishable {
             MinecraftClient.getInstance().world.addParticle(ParticleTypes.END_ROD, target.getX() + 0, target.getY() + 1, target.getZ() + 0, (int)(Math.random()*20-10)/100f, (int)(Math.random()*10)/100f, (int)(Math.random()*20-10)/100f);
         }
         if (random == 1) {attacker.addStatusEffect(new StatusEffectInstance(StatusEffects.INSTANT_DAMAGE, 1, 0), attacker);}
-        else if (random == 2) {attacker.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, 300, 0), attacker);}
+        else if (random == 2) {attacker.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, 200, 0), attacker);}
         else if (random == 3) {target.addStatusEffect(new StatusEffectInstance(StatusEffects.INVISIBILITY, 300, 1), attacker);}
         else if (random == 4) {target.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 150, 5), attacker);
             attacker.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 200, 5), attacker);}
-        else if (random == 5) {target.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 600, 2), attacker);}
-        else if (random == 6) {target.addStatusEffect(new StatusEffectInstance(StatusEffects.LUCK, 6000, 5, false, false), attacker);}
+        else if (random == 5) {target.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 300, 2), attacker);}
+        else if (random == 6) {target.addStatusEffect(new StatusEffectInstance(StatusEffects.LUCK, 6000, 5, true, false), attacker);}
         else if (random == 7) {target.addStatusEffect(new StatusEffectInstance(StatusEffects.INSTANT_HEALTH, 1, 1), attacker);}
         else if (random == 8) {target.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 200, 5), attacker);
             attacker.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 200, 5), attacker);
             attacker.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, 200, 5), attacker);}
-        else if (random == 9) {target.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 600, 1), attacker);}
+        else if (random == 9) {target.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 300, 1), attacker);}
         else if (random == 10) {target.addStatusEffect(new StatusEffectInstance(StatusEffects.HUNGER, 20, 255), attacker);}
         else if (random == 11) {target.addStatusEffect(new StatusEffectInstance(StatusEffects.GLOWING, 600, 1), attacker);}
-        else if (random == 12) {target.addStatusEffect(new StatusEffectInstance(StatusEffects.LEVITATION, 10, 9), attacker);}
-        else if (random == 13) {target.addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, 300, 0), attacker);}
+        else if (random == 12) {target.addStatusEffect(new StatusEffectInstance(StatusEffects.LEVITATION, 10, 20), attacker);}
+        else if (random == 13) {target.addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, 150, 1), attacker);}
         else if (random == 14) {target.addStatusEffect(new StatusEffectInstance(StatusEffects.INSTANT_DAMAGE, 1, 0), attacker);}
-        else if (random == 15) {attacker.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 40, 5), attacker);}
+        else if (random == 15) {attacker.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 60, 5), attacker);}
         else if (random == 16) {target.addStatusEffect(new StatusEffectInstance(StatusEffects.STRENGTH, 600, 0), attacker);}
         else if (random == 17) {attacker.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 100, 9), attacker);}
-        else if (random == 18) {attacker.addStatusEffect(new StatusEffectInstance(StatusEffects.HASTE, 100, 10), attacker);}
-        else if (random == 19) {target.addStatusEffect(new StatusEffectInstance(StatusEffects.LEVITATION, 20, 20), attacker);}
+        else if (random == 18) {attacker.addStatusEffect(new StatusEffectInstance(StatusEffects.HASTE, 100, 20), attacker);}
+        else if (random == 19) {target.addStatusEffect(new StatusEffectInstance(StatusEffects.LEVITATION, 10, 40), attacker);}
         else if (random == 20) {
             target.damage(attacker.getDamageSources().mobAttack(attacker), 40);
             playSound(attacker.getWorld(), attacker.getBlockPos(), SoundEvents.ENTITY_ENDER_EYE_DEATH);
