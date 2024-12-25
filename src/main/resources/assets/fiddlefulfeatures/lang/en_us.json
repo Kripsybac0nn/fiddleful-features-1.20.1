@@ -5,8 +5,13 @@
   "item.fiddlefulfeatures.walletwhacker": "Walletwhacker",
   "block.fiddlefulfeatures.orb_block": "Block of Orb",
   "block.fiddlefulfeatures.slotmachine": "Slot Machine",
+  "item.fiddlefulfeatures.flanbean": "Flan Bean",
+  "item.fiddlefulfeatures.wizardstaff": "Mystical Magical Wizard Stick",
 
   "tooltip.fiddlefulfeatures.walletwhacker.tooltip": "For only the most professional gamblers.",
+  "tooltip.fiddlefulfeatures.flanbean.tooltip": "DO NOT CONSUME",
+  "tooltip.fiddlefulfeatures.flanbean2.tooltip": "Completely safe to put in your body!",
 
-  "itemgroup.fiddlegroup": "Fiddleful Features"
+  "itemgroup.fiddlegroup": "Fiddleful Features",
+  "death.attack.fiddlefulfeatures.bean": "You've been beaned."
 }

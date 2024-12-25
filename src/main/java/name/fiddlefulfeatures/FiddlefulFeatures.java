@@ -26,5 +26,6 @@ public class FiddlefulFeatures implements ModInitializer {
 		ModLootTableModifiers.registerLootTables();
 
 
+
 	}
 }
