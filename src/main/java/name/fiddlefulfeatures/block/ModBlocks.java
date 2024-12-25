@@ -1,6 +1,7 @@
 package name.fiddlefulfeatures.block;
 
 import name.fiddlefulfeatures.FiddlefulFeatures;
+import name.fiddlefulfeatures.block.custom.KripsyPlushie;
 import name.fiddlefulfeatures.block.custom.SlotMachine;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
@@ -21,6 +22,8 @@ public class ModBlocks {
             new Block(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK).sounds(BlockSoundGroup.GLOW_LICHEN)));
     public static final Block SLOTMACHINE = registerBlock("slotmachine",
             new SlotMachine(FabricBlockSettings.copyOf(Blocks.WHITE_WOOL).nonOpaque().hardness(0.5F).sounds(BlockSoundGroup.STONE)));
+    public static final Block KRIPSY_PLUSHIE = registerBlock("kripsy_plushie",
+            new KripsyPlushie(FabricBlockSettings.copyOf(Blocks.PLAYER_HEAD).sounds(BlockSoundGroup.WOOL)));
 
 
     private static Block registerBlock(String name, Block block) {
