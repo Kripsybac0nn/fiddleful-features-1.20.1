@@ -19,6 +19,7 @@ public class FiddlefulFeatures implements ModInitializer {
 	@Override
 	public void onInitialize() {
 		LOGGER.info("Hello Fabric world!");
+		SoundEventRegistry.registerSoundEvents();
 		ModItems.registerModItems();
 		ModItemGroups.registerItemGroups();
 		ModBlocks.registerModBlocks();

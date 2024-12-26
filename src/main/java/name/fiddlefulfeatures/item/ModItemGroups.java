@@ -17,6 +17,7 @@ public class ModItemGroups {
             FabricItemGroup.builder().displayName(Text.translatable("itemgroup.fiddlegroup"))
                     .icon(() -> new ItemStack(ModItems.MATTOCK)).entries((displayContext, entries) -> {
 
+                        entries.add(ModBlocks.KRIPSY_PLUSHIE);
                         entries.add(ModItems.ORB);
                         entries.add(ModBlocks.ORB_BLOCK);
                         entries.add(ModItems.FLANBEAN);
@@ -25,6 +26,8 @@ public class ModItemGroups {
                         entries.add(ModItems.WALLETWHACKER);
                         entries.add(ModBlocks.SLOTMACHINE);
                         entries.add(ModItems.COIN);
+                        entries.add(ModBlocks.MEAT_BLOCK);
+
 
 
                     }).build());

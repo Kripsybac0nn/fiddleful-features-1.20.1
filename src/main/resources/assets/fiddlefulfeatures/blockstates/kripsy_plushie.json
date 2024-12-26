@@ -1,7 +1,8 @@
 {
   "variants": {
-    "": {
-      "model": "fiddlefulfeatures:block/kripsy_plushie"
-    }
+      "facing=north": { "model": "fiddlefulfeatures:block/kripsy_plushie","y": 0},
+      "facing=east": { "model": "fiddlefulfeatures:block/kripsy_plushie","y": 90},
+      "facing=west": { "model": "fiddlefulfeatures:block/kripsy_plushie","y": 270},
+      "facing=south": { "model": "fiddlefulfeatures:block/kripsy_plushie","y": 180}
   }
 }
