@@ -1,5 +1,6 @@
 package name.fiddlefulfeatures.entity.custom.projectile;
 
+import name.fiddlefulfeatures.FiddlefulFeatures;
 import name.fiddlefulfeatures.entity.ModEntities;
 import name.fiddlefulfeatures.item.ModItems;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -22,19 +23,21 @@ import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.util.BlockRotation;
 import net.minecraft.util.hit.EntityHitResult;
+import net.minecraft.util.math.RotationAxis;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 public class MattockEntity extends PersistentProjectileEntity {
-    private static final TrackedData<Byte> LOYALTY = DataTracker.registerData(net.minecraft.entity.projectile.TridentEntity.class, TrackedDataHandlerRegistry.BYTE);
-    private static final TrackedData<Boolean> ENCHANTED = DataTracker.registerData(net.minecraft.entity.projectile.TridentEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+    private static final TrackedData<Byte> LOYALTY = DataTracker.registerData(name.fiddlefulfeatures.entity.custom.projectile.MattockEntity.class, TrackedDataHandlerRegistry.BYTE);
+    private static final TrackedData<Boolean> ENCHANTED = DataTracker.registerData(name.fiddlefulfeatures.entity.custom.projectile.MattockEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
     private ItemStack mattockStack = new ItemStack(ModItems.MATTOCK);
     private boolean dealtDamage;
     public int returnTimer;
     public final AnimationState idleAnimationState = new AnimationState();
-    private int idleAnimationTimeout = 0;
+    private int idleAnimationTimeout = 100;
 
 
 
@@ -52,7 +55,7 @@ public class MattockEntity extends PersistentProjectileEntity {
     public MattockEntity(World world, LivingEntity owner, ItemStack stack) {
         super(ModEntities.MATTOCK_ENTITY, owner, world);
         this.mattockStack = stack.copy();
-        this.dataTracker.set(LOYALTY, (byte) EnchantmentHelper.getLoyalty(stack));
+        this.dataTracker.set(LOYALTY, (byte) 1);
         this.dataTracker.set(ENCHANTED, stack.hasGlint());
     }
 
@@ -69,7 +72,8 @@ public class MattockEntity extends PersistentProjectileEntity {
 
     @Override
     public void tick() {
-        if (this.inGroundTime > 4) {
+
+        if (this.inGroundTime > 0.1) {
             this.dealtDamage = true;
         }
 
@@ -83,6 +87,7 @@ public class MattockEntity extends PersistentProjectileEntity {
 
                 this.discard();
             } else {
+                setupAnimationStates();
                 this.setNoClip(true);
                 Vec3d vec3d = entity.getEyePos().subtract(this.getPos());
                 this.idleAnimationState.start(this.age);

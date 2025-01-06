@@ -20,13 +20,11 @@ public class ModItemGroups {
                         entries.add(ModBlocks.KRIPSY_PLUSHIE);
                         entries.add(ModItems.ORB);
                         entries.add(ModBlocks.ORB_BLOCK);
-                        entries.add(ModItems.FLANBEAN);
-                        entries.add(ModItems.WIZARDSTAFF);
                         entries.add(ModItems.MATTOCK);
                         entries.add(ModItems.WALLETWHACKER);
                         entries.add(ModBlocks.SLOTMACHINE);
                         entries.add(ModItems.COIN);
-                        entries.add(ModBlocks.MEAT_BLOCK);
+
 
 
 
